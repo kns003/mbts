@@ -1,0 +1,134 @@
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="/static/bootstrap.min.css">
+    <link href="/static/signin.css" rel="stylesheet">
+    <link href="/static/typeahead.css" rel="stylesheet">
+    <script src="/static/jquery-2.1.0.min.js"></script>
+    <script src="/static/bootstrap.min.js"></script>
+    <script src="/static/typeahead.bundle.min.js"></script>
+    <meta property="og:title" content="bbus.in - BMTC Bus Route Search" />
+    <meta property="og:image:type" content="image/jpeg" />
+    <meta property="og:image:width" content="400" />
+    <meta property="og:image:height" content="400" />
+    <script type="text/javascript">
+    $(document).ready(function() {
+    
+    	var bus_stops = new Bloodhound({
+      datumTokenizer: function(d) { return Bloodhound.tokenizers.whitespace(d.name); },
+      queryTokenizer: Bloodhound.tokenizers.whitespace,
+      limit: 8,
+      prefetch: {
+        url: '/static/bus_list.json',
+        filter: function(list) {
+         return $.map(list, function(bus_stop) { return { name: bus_stop }; });
+        }
+      }
+    });
+
+    bus_stops.initialize();
+
+    $('.js-to .typeahead').typeahead({
+      highlight: true,
+     }, {
+      name: 'bus_stops',
+      displayKey: 'name',
+      source: bus_stops.ttAdapter()
+    });
+
+    $('.js-from .typeahead').typeahead({
+      highlight: true,
+    }, {
+      name: 'bus_stops',
+      displayKey: 'name',
+      source: bus_stops.ttAdapter(),
+    });
+
+    $('.js-route .typeahead').typeahead({
+      highlight: true,
+     }, {
+      name: 'bus_stops',
+      displayKey: 'name',
+      source: bus_stops.ttAdapter()
+    });
+    
+    $('#js-submit-btn').on('click', function(event){
+        event.preventDefault();
+        $('#js-src-err').hide();
+        $('#js-dst-err').hide();
+        $('#js-src').parent().removeClass('has-error');
+        $('#js-dst').parent().removeClass('has-error');
+        var $btn = $(this);
+        $btn.button('loading');
+        var $src = $('#js-src');
+        var $dst = $('#js-dst');
+        if(!$src.val()){
+            $('#js-src').parent().addClass('has-error');
+            $('#js-src-err').show();
+            $btn.button('reset');
+            return;
+        }
+        if(!$dst.val()){
+            $('#js-dst').parent().addClass('has-error');
+            $('#js-dst-err').show();
+            $btn.button('reset');
+            return;
+        }
+        var form = $('#js-search-form');
+        form.submit();
+    });
+ });
+   </script>
+</head>
+<body>
+<div class="container">
+	<center><h1> Mangalore Local Pvt bus search </h1></center>
+     <div class="col-md-3"></div>
+     <div class="col-md-6">
+          <form method="POST" id="js-search-form" action=".">{% csrf_token %}
+             <div class="form-group">
+                <label for="from">From</label>
+                <div class="js-from">
+                    <label class="control-label" style="display:none;" id="js-src-err">Where do you want to start from?</label>
+                    <input type="text" class="typeahead form-control" id="js-src" name="source" placeholder="Start from bus stop .." required>
+                </div>
+             </div>
+             <div class="form-group">
+                <label for="to">To</label>
+                <div class="js-to">
+                    <label class="control-label" style="display:none;" id="js-dst-err">Where do you want to reach?</label>
+                   <input type="text" class="typeahead form-control" id="js-dst" name="destination" placeholder="Reach to bus stop .." required>
+                </div>
+             </div>
+			<br/><br/>
+             <center><button type="submit" data-loading-text="Searching ..." id="js-submit-btn" class="btn btn-primary btn-lg">Search</button></center>
+          </form>
+        </div>
+        <div class="row">
+    <div class="col-md-2"></div>
+    <div class="col-md-8">
+        <br/>
+        {% if source and destination %}
+        	<label> From : </label>
+        	<div class="btn btn-primary btn-lg" style="background-color:rgb(135, 141, 141);border-color:rgb(135, 141, 141);font-size:15px;">{{ source }}</div>
+        	<span> <label> To: </label><div class="btn btn-primary btn-lg" style="background-color:rgb(135, 141, 141);border-color:rgb(135, 141, 141);font-size:15px;">{{ destination }}</div></span>
+        {% endif %}
+        </br></br>
+        {% if buses %}
+        <label>Route no :</label>
+        {% for bus in buses %}
+        	 <div class="btn btn-primary btn-lg" style="background-color:rgb(107, 153, 107);border-color:rgb(141, 197, 141);font-size:15px;height:34px;margin-bottom: 20px;margin-right: 10px"> {{bus.route_no}} </div>
+        {% endfor %}
+        {% endif %}
+        <br/>
+        {% if intermediate %}
+        <label>Intermediate stops : </label>
+        {% for inter in intermediate %}
+            </br></br><div class="btn btn-primary btn-lg" style="background-color:rgb(216, 92, 92);border-color:rgb(216, 92, 92);font-size:15px;margin-bottom:-34px;">{{inter}}</div></br>
+        {% endfor %}
+        {% endif %}
+    </div>
+    <div class="col-md-2"></div>
+</div>
+  </div>
+  </html>
