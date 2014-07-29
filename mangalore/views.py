@@ -17,6 +17,7 @@ def routes(request):
             buses = Bus.objects.filter(Q(stops__icontains = source),Q(stops__icontains = destination))
             print buses
             if buses:
+                i=[]
                 for bus in buses:
                     print bus.stops
                     bus_str = bus.stops.replace(" ","")
@@ -31,6 +32,13 @@ def routes(request):
                         intermediate = bus_list[last:first]
                         intermediate = intermediate[::-1]
                     print intermediate
+                    via=[]
+                    for inter in intermediate:
+                        via.append(str(inter))
+                    i.append(via)
+                print i
+                z = zip(buses,i)
+                print z
                 return render_to_response('index.html', locals(), context_instance=RequestContext(request))
         else:
             form = RouteForm()

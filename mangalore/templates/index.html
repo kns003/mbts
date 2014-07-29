@@ -80,11 +80,12 @@
  });
    </script>
 </head>
+<div style="float:right;"><div class="btn btn-primary btn-lg" style="background-color:#73B380;border-color:#8EDA9D;font-size:15px;">Contact Me</div></div>
 <body>
 <div class="container">
-	<center><h1> Mangalore Local Pvt bus search </h1></center>
+	<center><h1> Welcome to Mangalore Local Pvt Bus search </h1></center>
      <div class="col-md-3"></div>
-     <div class="col-md-6">
+     <div class="col-md-3">
           <form method="POST" id="js-search-form" action=".">{% csrf_token %}
              <div class="form-group">
                 <label for="from">From</label>
@@ -105,30 +106,28 @@
           </form>
         </div>
         <div class="row">
-    <div class="col-md-2"></div>
-    <div class="col-md-8">
+    <div class="col-md-0"></div>
+    <div class="col-md-6">
         <br/>
         {% if source and destination %}
         	<label> From : </label>
-        	<div class="btn btn-primary btn-lg" style="background-color:rgb(135, 141, 141);border-color:rgb(135, 141, 141);font-size:15px;">{{ source }}</div>
-        	<span> <label> To: </label><div class="btn btn-primary btn-lg" style="background-color:rgb(135, 141, 141);border-color:rgb(135, 141, 141);font-size:15px;">{{ destination }}</div></span>
+        	<div class="btn btn-primary btn-lg" style="background-color:rgb(199, 94, 103);border-color:rgb(199, 94, 103);font-size:15px;">{{ source }}</div>
+        	<span> <label> To: </label><div class="btn btn-primary btn-lg" style="background-color:rgb(199, 94, 103);border-color:rgb(199, 94, 103);font-size:15px;">{{ destination }}</div></span>
         {% endif %}
         </br></br>
         {% if buses %}
-        <label>Route no :</label>
-        {% for bus in buses %}
-        	 <div class="btn btn-primary btn-lg" style="background-color:rgb(107, 153, 107);border-color:rgb(141, 197, 141);font-size:15px;height:34px;margin-bottom: 20px;margin-right: 10px"> {{bus.route_no}} </div>
-        {% endfor %}
-        {% endif %}
-        <br/>
-        {% if intermediate %}
-        <label>Intermediate stops : </label>
-        {% for inter in intermediate %}
-            </br></br><div class="btn btn-primary btn-lg" style="background-color:rgb(216, 92, 92);border-color:rgb(216, 92, 92);font-size:15px;margin-bottom:-34px;">{{inter}}</div></br>
-        {% endfor %}
-        {% endif %}
+        <label style="color:grey;">Bus no with Intermediate Stops :</label></br>
+        {% for bus,via in z%}
+        	<div class="btn btn-primary btn-lg" style="background-color:#73B380;border-color:#8EDA9D;font-size:15px;">{{bus.route_no}}</div>
+        	{% for v in via %}
+        		<label style="font-size:17px;">{{v}}--</label>
+        	{%endfor%}
+        	</br></br>
+        {%endfor%}
+        {%endif%}
     </div>
     <div class="col-md-2"></div>
 </div>
+
   </div>
   </html>
