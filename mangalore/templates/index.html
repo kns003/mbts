@@ -81,8 +81,12 @@
  });
    </script>
 </head>
-<div style="float:right;"><div class="btn btn-primary btn-lg" style="background-color:#73B380;border-color:#8EDA9D;font-size:15px;">Contact Me</div></div>
+
 <body>
+<nav class="navbar navbar-lg navbar-fixed-top" role="navigation">
+	<right><button type="button" class="btn btn-lg">Home</button>
+	<button type="button" class="btn btn-lg">Contact Me</button></right>
+</nav>
 <div class="container">
 	<center><h1> Welcome to Mangalore Local Pvt Bus search </h1></center>
      <div class="col-md-3"></div>
@@ -111,9 +115,9 @@
     <div class="col-md-6">
         <br/>
         {% if source and destination %}
-        	<label> From : </label>
-        	<div class="btn btn-primary btn-lg" style="background-color:rgb(199, 94, 103);border-color:rgb(199, 94, 103);font-size:15px;">{{ source }}</div>
-        	<span> <label> To: </label><div class="btn btn-primary btn-lg" style="background-color:rgb(199, 94, 103);border-color:rgb(199, 94, 103);font-size:15px;">{{ destination }}</div></span>
+        	<label> From : &nbsp;&nbsp</label>
+        	<div class="btn btn-primary btn-lg" style="background-color:rgb(199, 94, 103);border-color:rgb(199, 94, 103);font-size:15px;">{{ source }}</div></br></br>
+        	<span> <label> To&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp: &nbsp;&nbsp</label><div class="btn btn-primary btn-lg" style="background-color:rgb(199, 94, 103);border-color:rgb(199, 94, 103);font-size:15px;">{{ destination }}</div></span>
         {% endif %}
         </br></br>
         {% if buses %}
@@ -131,4 +135,5 @@
 </div>
 
   </div>
+
   </html>
