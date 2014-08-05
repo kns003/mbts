@@ -15,7 +15,7 @@ def routes(request):
             print "valid"
             source = form.cleaned_data['source']
             destination = form.cleaned_data['destination']
-            buses = Bus.objects.filter(Q(stops__iexact = source),Q(stops__iexact = destination))
+            buses = Bus.objects.filter(Q(stops__icontains = source),Q(stops__icontains = destination))
             print buses
             if buses:
                 i=[]
@@ -42,7 +42,7 @@ def routes(request):
                 print z
                 return render_to_response('index.html', locals(), context_instance=RequestContext(request))
             else:
-                msg = 'No buses found with this source and destination'
+                msg = "No routes found with this Source and destination"
                 return render_to_response('index.html', locals(), context_instance=RequestContext(request))
         else:
             form = RouteForm()
@@ -50,6 +50,3 @@ def routes(request):
     else:
         form = RouteForm()
         return render_to_response('index.html', locals(), context_instance=RequestContext(request))
-                    
-                    
-
