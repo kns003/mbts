@@ -4,6 +4,7 @@ from mangalore.forms import RouteForm
 from django.db.models import Q
 from django.shortcuts import render_to_response
 from django.template.context import RequestContext
+from django import forms
 
 def routes(request):
     print 'routes'
@@ -14,7 +15,7 @@ def routes(request):
             print "valid"
             source = form.cleaned_data['source']
             destination = form.cleaned_data['destination']
-            buses = Bus.objects.filter(Q(stops__icontains = source),Q(stops__icontains = destination))
+            buses = Bus.objects.filter(Q(stops__iexact = source),Q(stops__iexact = destination))
             print buses
             if buses:
                 i=[]
@@ -39,6 +40,9 @@ def routes(request):
                 print i
                 z = zip(buses,i)
                 print z
+                return render_to_response('index.html', locals(), context_instance=RequestContext(request))
+            else:
+                msg = 'No buses found with this source and destination'
                 return render_to_response('index.html', locals(), context_instance=RequestContext(request))
         else:
             form = RouteForm()
