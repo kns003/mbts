@@ -42,7 +42,7 @@ def routes(request):
                 print z
                 return render_to_response('index.html', locals(), context_instance=RequestContext(request))
             else:
-                msg = "No routes found with this Source and destination"
+                msg = "No DIRECT Buses found with this Source and destination."
                 return render_to_response('index.html', locals(), context_instance=RequestContext(request))
         else:
             form = RouteForm()
