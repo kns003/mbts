@@ -1,0 +1,29 @@
+<html>
+<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.min.js"></script>
+<script type="text/javascript" src="/static/js/jquery-ui-1.8.21.custom.min.js"></script>
+<link rel="stylesheet" type="text/css" href="/static/style/jquery-ui-1.8.21.custom.css" />
+<script type="text/javascript">
+	$(document).ready(function()
+        {		
+		$( "#id_search" ).autocomplete({
+			source: "/accounts/search_product_autocomplete",
+			minLength: 1
+		});
+	});
+</script>
+
+{% block title %}Hello {{ request.user }}{% endblock %}
+
+<form method="POST" action=".">{% csrf_token %}
+<b> Search </b> : <input id="id_search" name="search" type="text" style="width:200px" /> &nbsp;<input type="submit" value="Search Product" />
+</form>
+{% block content %}
+  <h1>Your Profile</h1>
+
+  {% for product in products %}
+  	<a href = "/accounts/product/view/{{product.id}}"><b>{{ product.name }}</b></a></br>
+  	{{ product.description }}
+  	
+  </br> </br>
+  {% endfor %}
+{% endblock %}
