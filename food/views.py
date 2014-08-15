@@ -51,11 +51,7 @@ def add_product(request):
         form = ProductForm()
     return render_to_response('add_product.html', locals(), context_instance=RequestContext(request))
     
-@login_required
-def profile(request):
-    print "profile"
-    products = Product.objects.all()
-    return render_to_response('profile.html', locals(), context_instance=RequestContext(request))
+
 
 @login_required
 def search_product_autocomplete(request):
@@ -73,7 +69,7 @@ def search_product_autocomplete(request):
     return HttpResponse(json, mimetype = 'application/json')
 
 @login_required
-def search_product(request):
+def profile(request):
     print "search prod"
     if request.method == "POST":
         form = SearchForm(request.POST)
@@ -82,15 +78,17 @@ def search_product(request):
                 product = Product.objects.get(name = form.cleaned_data['search'])
                 product_name = product.name
                 product_id = product.id
-                return HttpResponseRedirect("/accounts/product/view/"+str(product_id))
+                return HttpResponseRedirect("/accounts/product/view"+product_id+"/")
             except Exception as e:
                 error = "The product doesnot exist"
                 return render_to_response('view_product.html',locals(), context_instance=RequestContext(request))
         else:
             form = SearchForm()
+            products = Product.objects.all()
             return render_to_response('profile.html',locals(), context_instance=RequestContext(request))
     else:
         form = SearchForm()
+        products = Product.objects.all()
         return render_to_response('profile.html',locals(), context_instance=RequestContext(request))
 
 @login_required

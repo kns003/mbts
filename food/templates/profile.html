@@ -14,7 +14,7 @@
 
 {% block title %}Hello {{ request.user }}{% endblock %}
 
-<form method="POST" action=".">{% csrf_token %}
+<form method="POST" action="/accounts/product/view/{{product_id}}">{% csrf_token %}
 <b> Search </b> : <input id="id_search" name="search" type="text" style="width:200px" /> &nbsp;<input type="submit" value="Search Product" />
 </form>
 {% block content %}
