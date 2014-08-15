@@ -55,7 +55,6 @@ def add_product(request):
 def profile(request):
     print "profile"
     products = Product.objects.all()
-    print products
     return render_to_response('profile.html', locals(), context_instance=RequestContext(request))
 
 @login_required
