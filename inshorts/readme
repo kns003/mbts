@@ -1,1 +1,9 @@
 In shorts Unofficial API
+
+To access this : http://shanka.herokuapp.com/inshorts/en/startup/
+The last url param can be any one from the following :
+['national', 'business', 'sports', 'world','politics', 
+                'technology', 'startup', 'entertainment', 'miscellaneous','hatke']
+The URL follows the similar structure of actual inshorts : https://www.inshorts.com/en/read/startup/
+
+TODO : Date time filters
