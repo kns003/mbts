@@ -7,7 +7,8 @@ urlpatterns = patterns('',
     # Examples:
     # url(r'^$', 'shanka.views.home', name='home'),
     url(r'^mangalore/', include('mangalore.urls')),
-
+    url(r'^facebook/', include('facebook.urls')),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^accounts/', include('food.urls')),
+    url(r'^inshorts/', include('inshorts.urls')),
 )

@@ -38,6 +38,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'mangalore',
     'food',
+    'facebook',
 )
 
 MIDDLEWARE_CLASSES = (
