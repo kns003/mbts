@@ -33,8 +33,6 @@ def get_news(request, section_name):
 
 def get_news_info(news_card):
     news_dict = {}
-    news_image = news_card.find(attrs={"class":NEWS_CARD_IMAGE_CLASS})
-    news_dict['image_url'] = news_image.img['src']
     news_dict['news_title'] = smart_str(news_card.find(attrs={"class":NEWS_CARD_TITLE_CLASS}).span.text)
     news_dict['time'] = news_card.find(attrs={"class":NEWS_CARD_TITLE_CLASS}).div.find(attrs={'class':'time'})['content']
     news_dict['content'] = smart_str(news_card.find(attrs={'class':NEWS_CARD_CONTENT}).div.text)
